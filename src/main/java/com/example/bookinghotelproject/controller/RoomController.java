@@ -1,5 +1,6 @@
 package com.example.bookinghotelproject.controller;
 
+import com.example.bookinghotelproject.dto.RoomRequestDTO;
 import com.example.bookinghotelproject.entity.Room;
 import com.example.bookinghotelproject.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,8 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
-        return ResponseEntity.ok(roomService.createRoom(room));
+    public ResponseEntity<Room> createRoom(@Valid @RequestBody RoomRequestDTO roomRequestDTO) {
+        Room room = roomService.createRoom(roomRequestDTO);
+        return ResponseEntity.ok(room);
     }
 }
