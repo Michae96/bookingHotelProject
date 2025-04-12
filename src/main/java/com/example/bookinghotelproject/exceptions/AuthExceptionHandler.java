@@ -58,5 +58,12 @@ public class AuthExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolation(jakarta.validation.ConstraintViolationException ex) {
+        log.error("Constraint violation exception: {}", ex.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Validation error: " + ex.getConstraintViolations().iterator().next().getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }

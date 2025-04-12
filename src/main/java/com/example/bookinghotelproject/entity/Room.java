@@ -37,6 +37,6 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)
-    @NotNull(message = "Hotel must be specified")
+    @JsonIgnore // Исключаем отель из сериализации, чтобы избежать рекурсии
     private Hotel hotel;
 }

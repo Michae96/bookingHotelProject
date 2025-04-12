@@ -1,5 +1,6 @@
 package com.example.bookinghotelproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,5 +36,6 @@ public class Hotel {
     private List<String> services;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Исключаем список комнат из сериализации
     private List<Room> rooms;
 }

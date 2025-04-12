@@ -18,6 +18,12 @@ public class RoomService {
     private final HotelRepository hotelRepository;
 
     public Room createRoom(RoomRequestDTO roomRequestDTO) {
+        // Проверка допустимых значений для поля type
+        List<String> validTypes = List.of("Standard", "Premium", "Luxury", "Budget");
+        if (!validTypes.contains(roomRequestDTO.getType())) {
+            throw new IllegalArgumentException("Invalid room type. Allowed values are: " + validTypes);
+        }
+
         Hotel hotel = hotelRepository.findById(roomRequestDTO.getHotelId())
                 .orElseThrow(() -> new IllegalArgumentException("Hotel with the specified ID does not exist"));
 
