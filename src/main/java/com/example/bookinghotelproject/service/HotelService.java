@@ -55,5 +55,11 @@ public class HotelService {
         return convertToDTO(hotel);
     }
 
+    public void deleteHotelById(Long id) {
+        if (!hotelRepository.existsById(id)) {
+            throw new IllegalArgumentException("Hotel not found");
+        }
+        hotelRepository.deleteById(id);
+    }
 
 }

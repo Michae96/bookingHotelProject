@@ -32,4 +32,10 @@ public class HotelController {
         return ResponseEntity.ok(hotel);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteHotel(@PathVariable Long id) {
+        hotelService.deleteHotelById(id);
+        return ResponseEntity.ok("Hotel deleted successfully");
+    }
+
 }
