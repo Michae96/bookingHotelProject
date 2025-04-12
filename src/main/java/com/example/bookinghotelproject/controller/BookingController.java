@@ -1,5 +1,6 @@
 package com.example.bookinghotelproject.controller;
 
+import com.example.bookinghotelproject.dto.BookingDTO;
 import com.example.bookinghotelproject.entity.Booking;
 import com.example.bookinghotelproject.service.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,13 @@ public class BookingController {
 
     // 3.1. POST /book
     @PostMapping("/book")
-    public ResponseEntity<Booking> createBooking(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody Map<String, Object> request) {
         String username = (String) request.get("username");
         Long roomId = Long.valueOf((Integer) request.get("roomId"));
         LocalDate startDate = LocalDate.parse((String) request.get("startDate"));
         LocalDate endDate = LocalDate.parse((String) request.get("endDate"));
 
-        Booking booking = bookingService.createBooking(username, roomId, startDate, endDate);
+        BookingDTO booking = bookingService.createBooking(username, roomId, startDate, endDate);
         return ResponseEntity.ok(booking);
     }
 
