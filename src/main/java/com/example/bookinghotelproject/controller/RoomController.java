@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/rooms")
 @RequiredArgsConstructor
@@ -21,4 +23,11 @@ public class RoomController {
         Room room = roomService.createRoom(roomRequestDTO);
         return ResponseEntity.ok(room);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Room>> getRoomsByHotelId(@RequestParam Long hotelId) {
+        List<Room> rooms = roomService.getRoomsByHotelId(hotelId);
+        return ResponseEntity.ok(rooms);
+    }
+
 }

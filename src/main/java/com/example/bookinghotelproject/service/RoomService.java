@@ -8,6 +8,8 @@ import com.example.bookinghotelproject.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoomService {
@@ -28,4 +30,12 @@ public class RoomService {
 
         return roomRepository.save(room);
     }
+
+    public List<Room> getRoomsByHotelId(Long hotelId) {
+        if (!hotelRepository.existsById(hotelId)) {
+            throw new IllegalArgumentException("Hotel not found");
+        }
+        return roomRepository.findByHotelId(hotelId);
+    }
+
 }
