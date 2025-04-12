@@ -38,4 +38,9 @@ public class RoomService {
         return roomRepository.findByHotelId(hotelId);
     }
 
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
+    }
+
 }

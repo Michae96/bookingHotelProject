@@ -30,4 +30,10 @@ public class RoomController {
         return ResponseEntity.ok(rooms);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+        Room room = roomService.getRoomById(id);
+        return ResponseEntity.ok(room);
+    }
+
 }
