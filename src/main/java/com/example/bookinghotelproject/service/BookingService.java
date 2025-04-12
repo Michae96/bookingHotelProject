@@ -12,8 +12,13 @@ import com.example.bookinghotelproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -113,6 +118,29 @@ public class BookingService {
         dto.setStatus(booking.getStatus());
 
         return dto;
+    }
+
+    public List<LocalDate> getAvailableDatesForRoom(Long roomId) {
+        // Получаем текущую дату и дату через месяц
+        LocalDate today = LocalDate.now();
+        LocalDate oneMonthLater = today.plusMonths(1);
+
+        // Получаем все бронирования для указанного номера
+        List<Booking> bookings = bookingRepository.findByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                roomId, "CONFIRMED", oneMonthLater, today);
+
+        // Создаем список всех дат в диапазоне
+        List<LocalDate> allDates = today.datesUntil(oneMonthLater.plusDays(1)).collect(Collectors.toList());
+
+        // Исключаем занятые даты
+        List<LocalDate> unavailableDates = new ArrayList<>();
+        for (Booking booking : bookings) {
+            unavailableDates.addAll(booking.getStartDate().datesUntil(booking.getEndDate().plusDays(1)).collect(Collectors.toList()));
+        }
+
+        // Возвращаем только доступные даты
+        allDates.removeAll(unavailableDates);
+        return allDates;
     }
 
 }

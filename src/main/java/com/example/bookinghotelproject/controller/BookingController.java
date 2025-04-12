@@ -59,4 +59,17 @@ public class BookingController {
     public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
+
+    @GetMapping("/available-dates/{roomId}")
+    public ResponseEntity<Map<String, Object>> getAvailableDates(@PathVariable Long roomId) {
+        List<LocalDate> availableDates = bookingService.getAvailableDatesForRoom(roomId);
+
+        Map<String, Object> response = Map.of(
+                "room_id", roomId,
+                "available_dates", availableDates
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
 }
