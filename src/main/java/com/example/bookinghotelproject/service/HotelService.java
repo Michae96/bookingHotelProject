@@ -48,4 +48,12 @@ public class HotelService {
         }
         return hotelRepository.save(hotel);
     }
+
+    public HotelDTO getHotelById(Long id) {
+        Hotel hotel = hotelRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Hotel not found"));
+        return convertToDTO(hotel);
+    }
+
+
 }
