@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "e06d0751-beb8-4709-ab32-74ac32901151",
-		"name": "Hotel Booking API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"name": "🎆Hotel Booking API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "39262483"
 	},
 	"item": [
@@ -23,18 +23,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
+						"url": "http://localhost:8080/auth/register"
 					},
 					"response": []
 				},
@@ -52,18 +41,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"login"
-							]
-						}
+						"url": "http://localhost:8080/auth/login"
 					},
 					"response": []
 				},
@@ -72,28 +50,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/me",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"me"
-							]
-						}
+						"url": "http://localhost:8080/auth/me"
 					},
 					"response": []
 				}
@@ -107,13 +70,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -128,20 +87,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"testuser\",\n  \"roomId\": 1,\n  \"startDate\": \"2023-12-01\",\n  \"endDate\": \"2023-12-05\"\n}"
+							"raw": "{\n  \"username\": \"testuser\",\n  \"roomId\": 4,\n  \"startDate\": \"2024-12-01\",\n  \"endDate\": \"2025-12-05\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/bookings/book",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"bookings",
-								"book"
-							]
-						}
+						"url": "http://localhost:8080/bookings/book"
 					},
 					"response": []
 				},
@@ -150,13 +98,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -171,21 +115,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"newRoomId\": 2,\n  \"newStartDate\": \"2023-12-10\",\n  \"newEndDate\": \"2023-12-15\"\n}"
+							"raw": "{\n  \"newRoomId\": 5,\n  \"newStartDate\": \"2024-12-05\",\n  \"newEndDate\": \"2025-12-0\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/bookings/update-booking/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"bookings",
-								"update-booking",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/bookings/update-booking/8"
 					},
 					"response": []
 				},
@@ -194,13 +126,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [
@@ -209,19 +137,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:8080/bookings/cancel-booking/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"bookings",
-								"cancel-booking",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/bookings/cancel-booking/6"
 					},
 					"response": []
 				},
@@ -230,13 +146,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -245,17 +157,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:8080/bookings",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"bookings"
-							]
-						}
+						"url": "http://localhost:8080/bookings"
 					},
 					"response": []
 				},
@@ -264,13 +166,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -279,18 +177,22 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:8080/bookings/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"bookings",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/bookings/6"
+					},
+					"response": []
+				},
+				{
+					"name": "Get available dates for room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/bookings/available-dates/10"
 					},
 					"response": []
 				}
@@ -304,13 +206,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -321,19 +219,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hotel Rakhat\",\n  \"address\": \"Abay 239\",\n  \"description\": \"Average hotel\",\n  \"services\": [\"Bar\", \"Massage\", \"Restaurant\"]\n}"
+							"raw": "{\n  \"name\": \"Angel wings\",\n  \"address\": \"Satbayev 22/3\",\n  \"description\": \"Lux hotel\",\n  \"services\": [\"Bar\", \"Massage\", \"Restaurant\"]\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/hotels",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"hotels"
-							]
-						}
+						"url": "http://localhost:8080/hotels"
 					},
 					"response": []
 				},
@@ -342,27 +230,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/hotels",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"hotels"
-							]
-						}
+						"url": "http://localhost:8080/hotels"
 					},
 					"response": []
 				},
@@ -371,28 +245,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/hotels/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"hotels",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/hotels/1"
 					},
 					"response": []
 				},
@@ -401,28 +260,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/hotels/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"hotels",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/hotels/3"
 					},
 					"response": []
 				}
@@ -436,13 +280,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -453,25 +293,21 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"type\": \"Double\",\n  \"price\": 150.0,\n  \"available\": true,\n  \"capacity\": 2,\n  \"hotel\": {\n    \"id\": 1\n  }\n}"
+							"raw": "{\n  \"type\": \"Premium\",\n  \"price\": 150.0,\n  \"available\": true,\n  \"capacity\": 2,\n  \"hotel\": {\n    \"id\": 1\n  }\n}"
 						},
-						"url": {
-							"raw": "http://localhost:8080/rooms",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"rooms"
-							]
-						}
+						"url": "http://localhost:8080/rooms"
 					},
 					"response": []
 				},
 				{
 					"name": "Get All Rooms by Hotel ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -497,20 +333,15 @@
 				{
 					"name": "Get Room By ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt_token}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/rooms/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"rooms",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/rooms/10"
 					},
 					"response": []
 				},
@@ -519,18 +350,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/rooms/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"rooms",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/rooms/1"
 					},
 					"response": []
 				}
@@ -562,7 +382,7 @@
 	"variable": [
 		{
 			"key": "jwt_token",
-			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcjIiLCJpYXQiOjE3NDQzNTI3OTIsImV4cCI6MTc0NDQzOTE5Mn0.qFlC6NkAEkk62QtOnLztaYITvXF-W9T-Xc4hs3uIgUw",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcjIiLCJpYXQiOjE3NDQ0NjUyMDksImV4cCI6MTc0NDU1MTYwOX0.4qKAu79VBkI1KRr8InOBkAe05rJT4v0oigtNXcDkbyc",
 			"type": "string"
 		}
 	]
