@@ -19,6 +19,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
@@ -37,4 +38,18 @@ public class AuthController {
         String token = jwtTokenProvider.createToken(user.getUsername());
         return ResponseEntity.ok(Map.of("username", user.getUsername(), "token", token));
     }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity<Long> getUserIdByUsername(@PathVariable String username) {
+        User user = userService.loadUserEntityByUsername(username);
+        return ResponseEntity.ok(user.getId());
+    }
+
+    @GetMapping("/users/id/{id}")
+    public ResponseEntity<String> getUsernameByUserId(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return ResponseEntity.ok(user.getUsername());
+    }
+
 }
