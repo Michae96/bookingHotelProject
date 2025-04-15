@@ -8,5 +8,5 @@ public class RoomRequestDTO {
     private Double price;
     private Boolean available;
     private Integer capacity;
-    private Long hotelId;
+    private Long hotelId; // Используем ID отеля вместо объекта HotelDTO
 }

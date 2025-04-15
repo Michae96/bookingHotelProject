@@ -6,6 +6,7 @@ import com.example.roomservice.Room;
 import com.example.roomservice.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,8 +16,13 @@ import java.util.stream.Collectors;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final RestTemplate restTemplate;
 
-    public RoomDTO createRoom(RoomRequestDTO roomRequestDTO) {
+    public Room createRoom(RoomRequestDTO roomRequestDTO) {
+        // Проверяем, существует ли отель
+        String hotelServiceUrl = "http://hotel-service/hotels/" + roomRequestDTO.getHotelId();
+        restTemplate.getForObject(hotelServiceUrl, Object.class);
+
         Room room = new Room();
         room.setType(roomRequestDTO.getType());
         room.setPrice(roomRequestDTO.getPrice());
@@ -24,9 +30,10 @@ public class RoomService {
         room.setCapacity(roomRequestDTO.getCapacity());
         room.setHotelId(roomRequestDTO.getHotelId());
 
-        Room savedRoom = roomRepository.save(room);
-        return convertToDTO(savedRoom);
+        return roomRepository.save(room);
     }
+
+
 
     public List<RoomDTO> getRoomsByHotelId(Long hotelId) {
         return roomRepository.findByHotelId(hotelId).stream()

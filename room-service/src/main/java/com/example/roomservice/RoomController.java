@@ -18,7 +18,20 @@ public class RoomController {
 
     @PostMapping
     public ResponseEntity<RoomDTO> createRoom(@RequestBody RoomRequestDTO roomRequestDTO) {
-        return ResponseEntity.ok(roomService.createRoom(roomRequestDTO));
+        Room room = roomService.createRoom(roomRequestDTO);
+        RoomDTO roomDTO = convertToDTO(room);
+        return ResponseEntity.ok(roomDTO);
+    }
+
+    private RoomDTO convertToDTO(Room room) {
+        RoomDTO dto = new RoomDTO();
+        dto.setId(room.getId());
+        dto.setType(room.getType());
+        dto.setPrice(room.getPrice());
+        dto.setAvailable(room.getAvailable());
+        dto.setCapacity(room.getCapacity());
+        dto.setHotelId(room.getHotelId());
+        return dto;
     }
 
     @GetMapping
