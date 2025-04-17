@@ -17,10 +17,14 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    public ResponseEntity<RoomDTO> createRoom(@RequestBody RoomRequestDTO roomRequestDTO) {
-        Room room = roomService.createRoom(roomRequestDTO);
-        RoomDTO roomDTO = convertToDTO(room);
-        return ResponseEntity.ok(roomDTO);
+    public ResponseEntity<?> createRoom(@RequestBody RoomRequestDTO roomRequestDTO) {
+        try {
+            Room room = roomService.createRoom(roomRequestDTO);
+            return ResponseEntity.ok(convertToDTO(room));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Ошибка при создании комнаты: " + e.getMessage()));
+        }
     }
 
     private RoomDTO convertToDTO(Room room) {
@@ -40,9 +44,24 @@ public class RoomController {
     }
 
 
-    @GetMapping("/hotel/{hotelId}")
-    public ResponseEntity<List<RoomDTO>> getRoomsByHotelId(@PathVariable Long hotelId) {
+    @GetMapping
+    public ResponseEntity<List<RoomDTO>> getRoomsByHotelId(@RequestParam Long hotelId) {
         List<RoomDTO> rooms = roomService.getRoomsByHotelId(hotelId);
         return ResponseEntity.ok(rooms);
+    }
+
+
+
+}
+
+class ErrorResponse {
+    private String message;
+
+    public ErrorResponse(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

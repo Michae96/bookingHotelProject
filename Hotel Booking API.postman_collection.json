@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e06d0751-beb8-4709-ab32-74ac32901151",
+		"_postman_id": "19f68c62-0266-4338-a1d9-ffe420ddee45",
 		"name": "🎆Hotel Booking API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "39262483"
@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
+							"raw": "{\n  \"username\": \"testuser8\",\n  \"password\": \"password1234\"\n}"
 						},
 						"url": "http://localhost:8080/auth/register"
 					},
@@ -39,7 +39,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
+							"raw": "{\n  \"username\": \"testuser8\",\n  \"password\": \"password1234\"\n}"
 						},
 						"url": "http://localhost:8080/auth/login"
 					},
@@ -82,14 +82,15 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}"
+								"value": "Bearer {{jwt_token}}",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"testuser\",\n  \"roomId\": 4,\n  \"startDate\": \"2025-04-14\",\n  \"endDate\": \"2025-04-15\"\n}"
+							"raw": "{\n  \"username\": \"testuser8\",\n  \"roomId\": 5,\n  \"startDate\": \"2025-04-14\",\n  \"endDate\": \"2025-04-15\"\n}"
 						},
-						"url": "http://localhost:8080/bookings/book"
+						"url": "http://localhost:8080/bookings"
 					},
 					"response": []
 				},
@@ -115,9 +116,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"newRoomId\": 4,\n  \"newStartDate\": \"2025-04-16\",\n  \"newEndDate\": \"2025-04-18\"\n}"
+							"raw": "{\n    \"roomId\": 1,\n    \"startDate\": \"2025-01-01\",\n    \"endDate\": \"2025-01-02\"\n}"
 						},
-						"url": "http://localhost:8080/bookings/update-booking/9"
+						"url": "http://localhost:8080/bookings/1"
 					},
 					"response": []
 				},
@@ -137,7 +138,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": "http://localhost:8080/bookings/cancel-booking/6"
+						"url": "http://localhost:8080/bookings/1"
 					},
 					"response": []
 				},
@@ -177,7 +178,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": "http://localhost:8080/bookings/6"
+						"url": "http://localhost:8080/bookings/1"
 					},
 					"response": []
 				},
@@ -192,7 +193,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/bookings/available-dates/4"
+						"url": "http://localhost:8080/bookings/available-dates/1"
 					},
 					"response": []
 				}
@@ -219,7 +220,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Angel wings\",\n  \"address\": \"Satbayev 22/3\",\n  \"description\": \"Lux hotel\",\n  \"services\": [\"Bar\", \"Massage\", \"Restaurant\"]\n}"
+							"raw": "{\n  \"name\": \"Rakhat Palace\",\n  \"address\": \"Abaya 10A\",\n  \"description\": \"Lux hotel\",\n  \"services\": [\"Gym\", \"Massage\", \"Restaurant\"]\n}"
 						},
 						"url": "http://localhost:8080/hotels"
 					},
@@ -293,7 +294,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"type\": \"Premium\",\n  \"price\": 150.0,\n  \"available\": true,\n  \"capacity\": 2,\n  \"hotel\": {\n    \"id\": 1\n  }\n}"
+							"raw": "{\n  \"type\": \"Lux\",\n  \"price\": 100.0,\n  \"available\": true,\n  \"capacity\": 1,\n  \"hotelId\": 2\n}"
 						},
 						"url": "http://localhost:8080/rooms"
 					},
@@ -311,7 +312,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/rooms?hotelId=1",
+							"raw": "http://localhost:8080/rooms?hotelId=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -323,7 +324,7 @@
 							"query": [
 								{
 									"key": "hotelId",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
@@ -341,7 +342,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/rooms/10"
+						"url": "http://localhost:8080/rooms/1"
 					},
 					"response": []
 				},
@@ -382,7 +383,7 @@
 	"variable": [
 		{
 			"key": "jwt_token",
-			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcjIiLCJpYXQiOjE3NDQ2OTQ5NzUsImV4cCI6MTc0NDc4MTM3NX0.nGvkfbDiGbj3jKuWpgsS0aUfE_Dfr-cQ9m8U4-EDT2c",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcjgiLCJpYXQiOjE3NDQ5MTA3ODYsImV4cCI6MTc0NDk5NzE4Nn0.MZqBVdxQm5iBbUguwTEBUNTK_nlB58fCPyh8r6q0Bzk",
 			"type": "string"
 		}
 	]
