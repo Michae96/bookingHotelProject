@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface BookingRepository extends JpaRepository<Booking, Long> {
-    List<Booking> findByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            Long roomId, String status, LocalDate endDate, LocalDate startDate);
+public interface BookingRepository extends JpaRepository<Booking, Long> {List<Booking> findByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+        Long roomId, String status, LocalDate endDate, LocalDate startDate);
 }

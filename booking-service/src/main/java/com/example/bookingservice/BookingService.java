@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -115,6 +116,116 @@ public class BookingService {
             throw new IllegalArgumentException("Error fetching userId from auth-service: " + e.getMessage());
         }
     }
+
+    public BookingDTO getBookingById(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Бронирование не найдено"));
+        return convertToDTO(booking);
+    }
+
+    public List<LocalDate> getAvailableDates(Long roomId) {
+        // Получаем все подтвержденные бронирования для комнаты
+        List<Booking> existingBookings = bookingRepository
+                .findByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                        roomId, "CONFIRMED", LocalDate.now().plusMonths(3), LocalDate.now());
+
+        // Создаем список всех дат на следующие 3 месяца
+        List<LocalDate> allDates = LocalDate.now()
+                .datesUntil(LocalDate.now().plusMonths(3))
+                .collect(Collectors.toList());
+
+        // Удаляем забронированные даты
+        existingBookings.forEach(booking -> {
+            List<LocalDate> bookedDates = booking.getStartDate()
+                    .datesUntil(booking.getEndDate().plusDays(1))
+                    .collect(Collectors.toList());
+            allDates.removeAll(bookedDates);
+        });
+
+        return allDates;
+    }
+
+    public BookingDTO updateBooking(Long bookingId, BookingDTO updateDTO) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+
+        if ("CANCELLED".equals(booking.getStatus())) {
+            throw new IllegalArgumentException("Cannot update cancelled booking");
+        }
+
+        // Проверяем доступность новых дат
+        List<Booking> conflictingBookings = bookingRepository
+                .findByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                        updateDTO.getRoomId(),
+                        "CONFIRMED",
+                        updateDTO.getEndDate(),
+                        updateDTO.getStartDate());
+
+        if (!conflictingBookings.isEmpty()) {
+            throw new IllegalArgumentException("Room is not available for selected dates");
+        }
+
+        booking.setRoomId(updateDTO.getRoomId());
+        booking.setStartDate(updateDTO.getStartDate());
+        booking.setEndDate(updateDTO.getEndDate());
+
+        Booking updatedBooking = bookingRepository.save(booking);
+        return convertToDTO(updatedBooking);
+    }
+
+
+//    public List<BookingDTO> getBookingsByUserId(Long userId) {
+//        return bookingRepository.findByUserId(userId).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByRoomId(Long roomId) {
+//        return bookingRepository.findByRoomId(roomId).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByStatus(String status) {
+//        return bookingRepository.findByStatus(status).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByDateRange(LocalDate startDate, LocalDate endDate) {
+//        return bookingRepository.findByStartDateBetween(startDate, endDate).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByRoomIdAndDateRange(Long roomId, LocalDate startDate, LocalDate endDate) {
+//        return bookingRepository.findByRoomIdAndStartDateBetween(roomId, startDate, endDate).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
+//        return bookingRepository.findByUserIdAndStartDateBetween(userId, startDate, endDate).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByRoomIdAndStatus(Long roomId, String status) {
+//        return bookingRepository.findByRoomIdAndStatus(roomId, status).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//    public List<BookingDTO> getBookingsByUserIdAndStatus(Long userId, String status) {
+//        return bookingRepository.findByUserIdAndStatus(userId, status).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<BookingDTO> getBookingsByRoomIdAndUserId(Long roomId, Long userId) {
+//        return bookingRepository.findByRoomIdAndUserId(roomId, userId).stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
 
 
 }
