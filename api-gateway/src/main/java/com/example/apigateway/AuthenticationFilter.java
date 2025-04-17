@@ -3,8 +3,8 @@ package com.example.apigateway;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -16,34 +16,41 @@ import javax.crypto.SecretKey;
 import java.util.List;
 
 @Component
-public class AuthenticationFilter implements GatewayFilter {
+public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
     private final JwtProperties jwtProperties;
     private final List<String> openApiEndpoints = List.of("/auth/register", "/auth/login");
 
     public AuthenticationFilter(JwtProperties jwtProperties) {
+        super(Config.class);
         this.jwtProperties = jwtProperties;
     }
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
+    public GatewayFilter apply(Config config) {
+        return (exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
 
-        if (isOpenApiEndpoint(request)) {
+            if (isOpenApiEndpoint(request)) {
+                return chain.filter(exchange);
+            }
+
+            String authHeader = getAuthHeader(request);
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return onError(exchange, HttpStatus.UNAUTHORIZED);
+            }
+
+            String token = authHeader.substring(7);
+            if (!validateToken(token)) {
+                return onError(exchange, HttpStatus.UNAUTHORIZED);
+            }
+
             return chain.filter(exchange);
-        }
+        };
+    }
 
-        String authHeader = getAuthHeader(request);
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return onError(exchange, HttpStatus.UNAUTHORIZED);
-        }
+    public static class Config {
 
-        String token = authHeader.substring(7);
-        if (!validateToken(token)) {
-            return onError(exchange, HttpStatus.UNAUTHORIZED);
-        }
-
-        return chain.filter(exchange);
     }
 
     private boolean isOpenApiEndpoint(ServerHttpRequest request) {
