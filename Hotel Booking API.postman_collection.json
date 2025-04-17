@@ -23,7 +23,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
 						},
-						"url": "http://localhost:8081/auth/register"
+						"url": "http://localhost:8080/auth/register"
 					},
 					"response": []
 				},
@@ -41,7 +41,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"password1234\"\n}"
 						},
-						"url": "http://localhost:8081/auth/login"
+						"url": "http://localhost:8080/auth/login"
 					},
 					"response": []
 				},
@@ -56,7 +56,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/auth/me"
+						"url": "http://localhost:8080/auth/me"
 					},
 					"response": []
 				}
@@ -89,7 +89,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"username\": \"testuser\",\n  \"roomId\": 4,\n  \"startDate\": \"2025-04-14\",\n  \"endDate\": \"2025-04-15\"\n}"
 						},
-						"url": "http://localhost:8081/bookings/book"
+						"url": "http://localhost:8080/bookings/book"
 					},
 					"response": []
 				},
@@ -117,7 +117,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"newRoomId\": 4,\n  \"newStartDate\": \"2025-04-16\",\n  \"newEndDate\": \"2025-04-18\"\n}"
 						},
-						"url": "http://localhost:8081/bookings/update-booking/9"
+						"url": "http://localhost:8080/bookings/update-booking/9"
 					},
 					"response": []
 				},
@@ -137,7 +137,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": "http://localhost:8081/bookings/cancel-booking/6"
+						"url": "http://localhost:8080/bookings/cancel-booking/6"
 					},
 					"response": []
 				},
@@ -157,7 +157,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": "http://localhost:8081/bookings"
+						"url": "http://localhost:8080/bookings"
 					},
 					"response": []
 				},
@@ -177,7 +177,7 @@
 								"value": "Bearer {{jwt_token}}"
 							}
 						],
-						"url": "http://localhost:8081/bookings/6"
+						"url": "http://localhost:8080/bookings/6"
 					},
 					"response": []
 				},
@@ -192,7 +192,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/bookings/available-dates/4"
+						"url": "http://localhost:8080/bookings/available-dates/4"
 					},
 					"response": []
 				}
@@ -221,7 +221,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"name\": \"Angel wings\",\n  \"address\": \"Satbayev 22/3\",\n  \"description\": \"Lux hotel\",\n  \"services\": [\"Bar\", \"Massage\", \"Restaurant\"]\n}"
 						},
-						"url": "http://localhost:8081/hotels"
+						"url": "http://localhost:8080/hotels"
 					},
 					"response": []
 				},
@@ -236,7 +236,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/hotels"
+						"url": "http://localhost:8080/hotels"
 					},
 					"response": []
 				},
@@ -251,7 +251,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/hotels/2"
+						"url": "http://localhost:8080/hotels/2"
 					},
 					"response": []
 				},
@@ -266,7 +266,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8081/hotels/3"
+						"url": "http://localhost:8080/hotels/3"
 					},
 					"response": []
 				}
@@ -295,7 +295,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"type\": \"Premium\",\n  \"price\": 150.0,\n  \"available\": true,\n  \"capacity\": 2,\n  \"hotel\": {\n    \"id\": 1\n  }\n}"
 						},
-						"url": "http://localhost:8081/rooms"
+						"url": "http://localhost:8080/rooms"
 					},
 					"response": []
 				},
@@ -311,7 +311,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/rooms?hotelId=1",
+							"raw": "http://localhost:8080/rooms?hotelId=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -341,7 +341,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/rooms/10"
+						"url": "http://localhost:8080/rooms/10"
 					},
 					"response": []
 				},
@@ -350,7 +350,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8081/rooms/1"
+						"url": "http://localhost:8080/rooms/1"
 					},
 					"response": []
 				}
