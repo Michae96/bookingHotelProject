@@ -34,13 +34,15 @@ public class RoomController {
         return dto;
     }
 
-    @GetMapping
-    public ResponseEntity<List<RoomDTO>> getRoomsByHotelId(@RequestParam Long hotelId) {
-        return ResponseEntity.ok(roomService.getRoomsByHotelId(hotelId));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.getRoomById(id));
+    }
+
+
+    @GetMapping("/hotel/{hotelId}")
+    public ResponseEntity<List<RoomDTO>> getRoomsByHotelId(@PathVariable Long hotelId) {
+        List<RoomDTO> rooms = roomService.getRoomsByHotelId(hotelId);
+        return ResponseEntity.ok(rooms);
     }
 }

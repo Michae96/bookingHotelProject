@@ -33,18 +33,16 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-
+    public RoomDTO getRoomById(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
+        return convertToDTO(room);
+    }
 
     public List<RoomDTO> getRoomsByHotelId(Long hotelId) {
         return roomRepository.findByHotelId(hotelId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
-    }
-
-    public RoomDTO getRoomById(Long id) {
-        Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
-        return convertToDTO(room);
     }
 
     private RoomDTO convertToDTO(Room room) {

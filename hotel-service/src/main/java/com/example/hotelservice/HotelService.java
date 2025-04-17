@@ -1,10 +1,16 @@
 package com.example.hotelservice;
 
-import com.example.hotelservice.Hotel;
-import com.example.hotelservice.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -12,6 +18,7 @@ import java.util.List;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
+    private final RestTemplate restTemplate;
 
     public List<Hotel> getAllHotels() {
         return hotelRepository.findAll();
@@ -24,9 +31,46 @@ public class HotelService {
         return hotelRepository.save(hotel);
     }
 
-    public Hotel getHotelById(Long id) {
-        return hotelRepository.findById(id)
+    public HotelDTO getHotelById(Long id) {
+        Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Hotel not found"));
+
+        HotelDTO dto = convertToDTO(hotel);
+
+        // Получаем заголовок авторизации
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader("Authorization");
+
+        // Настраиваем заголовки для запроса
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authHeader);
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        // Получаем комнаты от room-service
+        try {
+            List<RoomDTO> rooms = restTemplate.exchange(
+                    "http://room-service/rooms/hotel/" + id,
+                    HttpMethod.GET,
+                    entity,
+                    new ParameterizedTypeReference<List<RoomDTO>>() {}
+            ).getBody();
+
+            dto.setRooms(rooms != null ? rooms : Collections.emptyList());
+        } catch (Exception e) {
+            dto.setRooms(Collections.emptyList());
+        }
+
+        return dto;
+    }
+
+    private HotelDTO convertToDTO(Hotel hotel) {
+        HotelDTO dto = new HotelDTO();
+        dto.setId(hotel.getId());
+        dto.setName(hotel.getName());
+        dto.setAddress(hotel.getAddress());
+        dto.setDescription(hotel.getDescription());
+        dto.setServices(hotel.getServices());
+        return dto;
     }
 
     public void deleteHotelById(Long id) {
@@ -35,4 +79,6 @@ public class HotelService {
         }
         hotelRepository.deleteById(id);
     }
+
+
 }
