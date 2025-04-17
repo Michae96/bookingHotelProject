@@ -1,8 +1,13 @@
 package com.example.bookingservice;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +22,21 @@ public class BookingService {
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         Long userId;
         try {
+            String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                    .getRequest().getHeader("Authorization");
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", authHeader);
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+
             String userServiceUrl = "http://auth-service/auth/users/" + bookingDTO.getUsername();
-            userId = restTemplate.getForObject(userServiceUrl, Long.class);
+            userId = restTemplate.exchange(
+                    userServiceUrl,
+                    HttpMethod.GET,
+                    entity,
+                    Long.class
+            ).getBody();
+
             if (userId == null) {
                 throw new IllegalArgumentException("User not found in auth-service");
             }
@@ -54,7 +72,26 @@ public class BookingService {
         BookingDTO dto = new BookingDTO();
         dto.setId(booking.getId());
         dto.setRoomId(booking.getRoomId());
-        dto.setUsername(getUsernameByUserId(booking.getUserId()));
+
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader("Authorization");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authHeader);
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        try {
+            String userServiceUrl = "http://auth-service/auth/users/id/" + booking.getUserId();
+            String username = restTemplate.exchange(
+                    userServiceUrl,
+                    HttpMethod.GET,
+                    entity,
+                    String.class
+            ).getBody();
+            dto.setUsername(username);
+        } catch (Exception e) {
+            dto.setUsername("Unknown");
+        }
+
         dto.setStartDate(booking.getStartDate());
         dto.setEndDate(booking.getEndDate());
         dto.setStatus(booking.getStatus());

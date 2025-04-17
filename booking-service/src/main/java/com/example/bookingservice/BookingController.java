@@ -13,10 +13,18 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
-        return ResponseEntity.ok(bookingService.createBooking(bookingDTO));
+    public ResponseEntity<?> createBooking(@RequestBody BookingDTO bookingDTO) {
+        try {
+            BookingDTO created = bookingService.createBooking(bookingDTO);
+            return ResponseEntity.ok(created);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(new ErrorResponse("Error creating booking: " + e.getMessage()));
+        }
     }
 
     @GetMapping
@@ -29,7 +37,17 @@ public class BookingController {
         bookingService.cancelBooking(id);
         return ResponseEntity.ok("Booking cancelled successfully");
     }
+}
 
+// Вспомогательный класс для ответа с ошибкой
+class ErrorResponse {
+    private String message;
 
+    public ErrorResponse(String message) {
+        this.message = message;
+    }
 
-}   
+    public String getMessage() {
+        return message;
+    }
+}
