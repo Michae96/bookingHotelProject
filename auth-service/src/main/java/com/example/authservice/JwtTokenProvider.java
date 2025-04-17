@@ -14,7 +14,6 @@ public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
     private String secret;
-
     private Key key;
 
     @PostConstruct
@@ -24,12 +23,12 @@ public class JwtTokenProvider {
 
     public String createToken(String username) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + 86400000); // 24 часа
+        Date expiry = new Date(now.getTime() + 86400000);
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key)
                 .compact();
     }
 
